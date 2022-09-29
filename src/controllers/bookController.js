@@ -14,7 +14,7 @@ const createBook = async function (req, res) {
             return res.status(400).send({ status: false, message: "Please enter required details in request body" })
         }
 
-        const { title, excerpt, userId, ISBN, category, subcategory, releasedAt, reviews } = booksData
+        const { title, excerpt, userId, ISBN, category, subcategory, releasedAt, reviews, bookCover } = booksData
 
         if (!stringChecking(title)) return res.status(400).send({ status: false, message: "title must be present with non-empty string" })
         const duplicateTitle = await bookModel.findOne({ title: title })
@@ -46,6 +46,7 @@ const createBook = async function (req, res) {
             booksData.reviews = 0
         }
         booksData.isDeleted = false
+        booksData.bookCover= bookCover
 
 
         const book = await bookModel.create(booksData)
